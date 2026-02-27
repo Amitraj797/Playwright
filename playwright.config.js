@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import { trace } from 'node:console';
 
 
 /**
@@ -8,6 +9,8 @@ import { defineConfig, devices } from '@playwright/test';
  const config=({
   testDir: './tests',
   timeout: 40000,
+  screenshot: "only-on-failure",
+  trace:'retain-on-failure',
   expect:{
     timeout:40000
   },

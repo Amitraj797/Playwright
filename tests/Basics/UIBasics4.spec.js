@@ -19,11 +19,12 @@ test('ui_basics_4', async ({page})=>
 });
 
 
-test.only("calender autoamtion", async ({page})=>
+test("calender autoamtion", async ({page})=>
 {
     const date="24";
-    const month="06";
+    const month="6";
     const year="2040";
+    const expectedDate=[month,date,year];
     await page.goto("https://rahulshettyacademy.com/seleniumPractise/#/offers");
     await page.locator("div.react-date-picker__inputGroup").click();
     await page.locator(".react-calendar__navigation__label").click();
@@ -31,21 +32,48 @@ test.only("calender autoamtion", async ({page})=>
     await page.locator(".react-calendar__navigation__next-button").click();
     await page.locator(".react-calendar__decade-view__years").locator(".react-calendar__tile").nth(9).click();
     await page.locator(".react-calendar__year-view__months").locator(".react-calendar__tile").nth(Number(month)-1).click();
-    await page.locator(".react-calendar__month-view__days").locator(".react-calendar__tile").nth(Number(date)-1).click();
+    await page.locator("//abbr[text()='"+date+"']").click();
 
-    await page.locator("input[name='date']").evaluate((el) => {
-    el.value = '2040-06-24';
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-    el.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-    const dateInputted = await page.locator("input[name='date']").inputValue();
-    console.log(dateInputted);
-    expect(dateInputted).toBe('2040-06-24');
+    // await page.locator("input[name='date']").evaluate((el) => {
+    // el.value = '2040-06-24';
+    // el.dispatchEvent(new Event('input', { bubbles: true }));
+    // el.dispatchEvent(new Event('change', { bubbles: true }));
+    // });
 
-    // const dateInput = page.locator("input[name='date']");
-    // const dateInputted = await dateInput.inputValue();
-    // console.log(dateInputted);
-    // expect(dateInputted).toBe(`${year}-${month}-${date}`);
+    const inputtedDate= page.locator(".react-date-picker__inputGroup__input");
+    await inputtedDate.nth(2).waitFor();
+   for(let i=0;i<expectedDate.length;i++)
+   {
+    const inputtedValue= await inputtedDate.nth(i).inputValue();
+    expect(inputtedValue).toBe(expectedDate[i]);
+   }
     await page.pause();
 
 });
+
+test("Calendar validations",async({page})=>
+{
+ 
+    const monthNumber = "6";
+    const date = "15";
+    const year = "2027";
+    const expectedList = [monthNumber,date,year];
+    
+    await page.goto("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+    await page.locator(".react-date-picker__inputGroup").click();
+    await page.locator(".react-calendar__navigation__label").click();
+    await page.locator(".react-calendar__navigation__label").click();
+    await page.getByText(year).click();
+    await page.locator(".react-calendar__year-view__months__month").nth(Number(monthNumber)-1).click();
+    await page.locator("//abbr[text()='"+date+"']").click();
+    page.waitForEvent('domcontentloaded');
+    const inputs =  page.locator('.react-date-picker__inputGroup__input');
+    
+    for(let i =0; i<expectedList.length;i++)
+    {
+        const value = await inputs.nth(i).inputValue();
+        expect(value).toEqual(expectedList[i]);
+ 
+    }
+ 
+    await page.pause();})
