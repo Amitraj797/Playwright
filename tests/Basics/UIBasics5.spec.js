@@ -13,7 +13,7 @@ test("Hidden Elements & Mouse hover", async ({page})=>
    
 });
 
-test.only("frame handling", async ({page})=>
+test("frame handling", async ({page})=>
 {
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     const framepage = page.frameLocator("#courses-iframe");
