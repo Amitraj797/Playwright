@@ -28,7 +28,4 @@ test('UI_Basics_2' , async ({browser})=>
     // if we run above last line only it will return list of element with o element. because above line doesnot wait for DOM to load whereas while printing 
     // single element playwright expecting an element and if not found still waiting for DOM to load playwright have feature of autowait.
 
-
-
-
 })

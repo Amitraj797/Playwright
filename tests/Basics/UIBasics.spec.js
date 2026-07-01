@@ -11,7 +11,7 @@ test('Browser first test', async ({browser})=>  // if need to input any proxy or
 
 })
 
-test('page test', async ({page})=> // if our app doesnot requir any specific proxy or cookies. i.e. run in default mode , we can use {page} fixture. 
+test('page test', async ({page})=> // if our app doesnot require any specific proxy or cookies. i.e. run in default mode , we can use {page} fixture. 
 // while using this fixture we can avoid writing first two lines of code i.e. launching new context and page. this fixture antomatically do internally.
 {
    await page.goto("https://amazon.in")
